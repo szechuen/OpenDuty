@@ -60,4 +60,4 @@ class Assignment(models.Model):
 	remarks = models.TextField(blank=True)
 
 	def __unicode__(self):
-		return self.member.name + " → " + self.event.name
+		return self.member.name + " -> " + self.event.name
