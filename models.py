@@ -1,6 +1,9 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 class Member(models.Model):
+	user = models.OneToOneField(User)
+
 	name = models.CharField(max_length=50)
 	class_name = models.CharField(max_length=20)
 	
@@ -16,7 +19,19 @@ class Event(models.Model):
 
 	begin = models.DateTimeField()
 	end = models.DateTimeField()
+	def duration(self):
+		return (self.end-self.begin).total_seconds()/3600
+	def cip_duration(self):
+		if self.cip: 
+			return self.duration()
+		else:
+			return 0
 	venue = models.CharField(max_length=20)
+
+	audio_visual = models.BooleanField()
+	photo = models.BooleanField()
+	video = models.BooleanField()
+	cip = models.BooleanField("CIP")
 
 	remarks = models.TextField(blank=True)
 
@@ -29,7 +44,19 @@ class Assignment(models.Model):
 	member = models.ForeignKey(Member)
 	event = models.ForeignKey(Event)
 
-	status = models.CharField(max_length=20)
+	TYPE_CHOICES = (
+		('Audio-Visual', 'Audio-Visual'),
+		('Photo', 'Photo'),
+		('Video', 'Video')
+	)
+	type = models.CharField(max_length=20, choices=TYPE_CHOICES)
+
+	STATUS_CHOICES = (
+		('Pending Approval', 'Pending Approval'),
+		('Approved', 'Approved'),
+		('Rejected', 'Rejected')
+	)
+	status = models.CharField(max_length=20, choices=STATUS_CHOICES)
 	remarks = models.TextField(blank=True)
 
 	def __unicode__(self):
