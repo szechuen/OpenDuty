@@ -1,0 +1,27 @@
+{% extends "base_sidebar.html" %}
+
+{% block title %}Members{% endblock %}
+
+{% block sidebar %}
+{% endblock %}
+
+{% block content %}
+  <table>
+    <thead>
+      <tr>
+        {% for heading in ['Name', 'Class', 'Home Phone', 'Mobile Phone', 'Email'] %}
+          <th>{{ heading }}</th>
+        {% endfor %}
+      </tr>
+    </thead>
+    <tbody>
+      {% for member in object_list %}
+        <tr>
+          {% for element in [{{ member.name }}, {{ member.class_name }}, {{ member.home_phone }}, {{ member.mobile_phone }}, {{ member.email }}] %}
+            <td>{{ element }}</td>
+          {% endfor %}
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}
