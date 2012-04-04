@@ -43,8 +43,8 @@
           <a class="brand" href="/">OpenDuty</a>
           <div class="nav-collapse">
             <ul class="nav">
-              <li{% if active == "dashboard" %} class="active"{% endif %}><a href="/dashboard/">Dashboard</a></li>
-              <li{% if active == "member" %} class="active"{% endif %}><a href="/member/">Members</a></li>
+              <li{% block dashboard_active %}{% endblock %}><a href="/dashboard/">Dashboard</a></li>
+              <li{% block member_active %}{% endblock %}><a href="/member/">Members</a></li>
             </ul>
             <p class="navbar-text pull-right">Logged in as <a href="/account/">{{ user.member.name }}</a></p>
           </div><!--/.nav-collapse -->
