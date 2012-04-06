@@ -1,0 +1,32 @@
+{% extends "event.html" %}
+
+{% block title %}Events{% endblock %}
+
+{% block content %}
+  <table class="table table-striped table-bordered">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Begin</th>
+        <th>End</th>
+        <th>Venue</th>
+        <th>AV</th>
+        <th>P</th>
+        <th>V</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for event in object_list %}
+        <tr>
+          <td>{{ event.name }}</td>
+          <td>{{ event.begin }}</td>
+          <td>{{ event.end }}</td>
+          <td>{{ event.venue }}</td>
+          <td>{% if event.audio_visual %}✔{% endif %}</td>
+          <td>{% if event.photo %}✔{% endif %}</td>
+          <td>{% if event.video %}✔{% endif %}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

@@ -45,6 +45,7 @@
             <ul class="nav">
               <li{% block dashboard_active %}{% endblock %}><a href="/dashboard/">Dashboard</a></li>
               <li{% block member_active %}{% endblock %}><a href="/member/">Members</a></li>
+              <li{% block event_active %}{% endblock %}><a href="/event/">Events</a></li>
             </ul>
             <p class="navbar-text pull-right">Logged in as <a href="/account/">{{ user.member.name }}</a></p>
           </div><!--/.nav-collapse -->
