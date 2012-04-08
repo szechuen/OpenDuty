@@ -1,6 +1,8 @@
 {% extends "base.html" %}
 
 {% block main %}
-  <h2>{% block title %}{% endblock %}</h2>
+  <div class="page-header">
+    <h1>{% block title %}{% endblock %}</h1>
+  </div>
   {% block content %}{% endblock %}
 {% endblock %}
