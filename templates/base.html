@@ -11,8 +11,12 @@
     <link href="http://static.openduty.com/bootstrap/css/bootstrap.css" rel="stylesheet">
     <style type="text/css">
       body {
-        padding-top: 60px;
-        padding-bottom: 40px;
+        padding-top: 20px;
+        padding-bottom: 20px;
+      }
+      .main {
+        padding-top: 20px;
+        padding-bottom: 20px;
       }
       .sidebar-nav {
         padding: 9px 0;
@@ -64,7 +68,7 @@
     </div>
 
     <div class="container-fluid">
-      {% block main %}{% endblock %}
+      <div class="main">{% block main %}{% endblock %}</div>
 
       <hr>
 
