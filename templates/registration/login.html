@@ -8,11 +8,13 @@
     {% csrf_token %}
     {% if form.errors %}
       <div class="control-group error">
-        <p>Your username and password didn't match. Please try again.</p>
+        <div class="controls">
+          <div class="help-block"><p>Your username and password didn't match. Please try again.</p></div>
+        </div>
       </div>
     {% endif %}
     {% include "form.html" %}
-    <p><input type="submit" class="btn btn-primary" value="Login" /></p>
+    <div class="form-actions"><input type="submit" class="btn btn-primary" value="Login" /></div>
     <input type="hidden" name="next" value="{{ next }}" />
   </form>
 {% endblock %}
