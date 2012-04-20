@@ -4,7 +4,7 @@
 {% block title %}Login{% endblock %}
 
 {% block content %}
-  <form method="post" action="{% url 'django.contrib.auth.views.login' %}" class="form-horizontal">
+  <form method="post" class="form-horizontal">
     {% csrf_token %}
     {% if form.errors %}
       <div class="control-group error">
