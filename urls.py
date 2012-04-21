@@ -10,6 +10,7 @@ urlpatterns = patterns('',
 	(r'^accounts/password_reset/$', 'django.contrib.auth.views.password_reset'),
 	(r'^accounts/password_reset_done/$', 'django.contrib.auth.views.password_reset_done'),
 	(r'^accounts/password_reset_confirm/$', 'django.contrib.auth.views.password_reset_confirm'),
+	(r'^accounts/password_reset_complete/$', 'django.contrib.auth.views.password_reset_complete'),
 	(r'^member/$', login_required(MemberListView.as_view())),
 	(r'^event/$', login_required(EventListView.as_view())),
 )
