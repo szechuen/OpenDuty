@@ -1,4 +1,5 @@
 {% extends "base_content.html" %}
+{% load url from future %}
 
 {% block title %}Login{% endblock %}
 
@@ -13,7 +14,10 @@
       </div>
     {% endif %}
     {% include "form.html" %}
-    <div class="form-actions"><input type="submit" class="btn btn-primary" value="Login" /></div>
+    <div class="form-actions">
+      <input type="submit" class="btn btn-primary" value="Login" />
+      <a href="{% url 'django.contrib.auth.views.password_reset' %}" class="btn">Forgot password?</a>
+    </div>
     <input type="hidden" name="next" value="{{ next }}" />
   </form>
 {% endblock %}
