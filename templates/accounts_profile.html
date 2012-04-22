@@ -1,0 +1,9 @@
+{% extends "base_content.html" %}
+{% load url from future %}
+
+{% block title %}Profile{% endblock %}
+{% block subtitle %}{{ user.member.name }}{% endblock %}
+
+{% block content %}
+  <a href="{% url 'django.contrib.auth.views.password_change' %}" class="btn btn-primary">Change Password</a>
+{% endblock %}
