@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 urlpatterns = patterns('',
 	(r'^accounts/login/$', 'django.contrib.auth.views.login'),
 	(r'^accounts/logout/$', 'django.contrib.auth.views.logout'),
-	(r'^accounts/profile/$', login_required(TemplateView.as_view(template_name="accounts_profile.html"))),
+	(r'^accounts/profile/$', login_required(TemplateView.as_view(template_name="registration/profile.html"))),
 	(r'^accounts/password_change/$', 'django.contrib.auth.views.password_change'),
 	(r'^accounts/password_change_done/$', 'django.contrib.auth.views.password_change_done'),
 	(r'^accounts/password_reset/$', 'django.contrib.auth.views.password_reset'),
