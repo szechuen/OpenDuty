@@ -1,4 +1,5 @@
 {% extends "member/member.html" %}
+{% load url from future %}
 
 {% block title %}Members{% endblock %}
 
@@ -15,7 +16,7 @@
     </thead>
     <tbody>
       {% for member in object_list %}
-        <tr>
+        <tr onclick="document.location = '{% url 'member_detail' pk=member.id %}';">
           <td>{{ member.name }}</td>
           <td>{{ member.class_name }}</td>
           <td>{{ member.home_phone }}</td>

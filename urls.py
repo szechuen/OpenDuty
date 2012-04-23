@@ -14,5 +14,6 @@ urlpatterns = patterns('',
 	(r'^accounts/password_reset_confirm/(?P<uidb36>\d+)/(?P<token>[\w-]+)/$', 'django.contrib.auth.views.password_reset_confirm'),
 	(r'^accounts/password_reset_complete/$', 'django.contrib.auth.views.password_reset_complete'),
 	(r'^member/$', login_required(MemberListView.as_view())),
+	url(r'^member/detail/(?P<pk>\d+)/$', login_required(MemberDetailView.as_view()), name='member_detail'),
 	(r'^event/$', login_required(EventListView.as_view())),
 )

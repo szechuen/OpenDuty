@@ -1,0 +1,29 @@
+{% extends "member/member.html" %}
+
+{% block title %}{{ member.name }}{% endblock %}
+{% block subtitle %}Member Detail{% endblock %}
+
+{% block content %}
+  <table class="table table-striped table-bordered table-left">
+    <tr>
+      <th>Name</th>
+      <td>{{ member.name }}</td>
+    </tr>
+    <tr>
+      <th>Class</th>
+      <td>{{ member.class_name }}</td>
+    </tr>
+    <tr>
+      <th>Home Phone</th>
+      <td>{{ member.home_phone }}</td>
+    </tr>
+    <tr>
+      <th>Mobile Phone</th>
+      <td>{{ member.mobile_phone }}</td>
+    </tr>
+    <tr>
+      <th>Email</th>
+      <td>{{ member.email }}</td>
+    </tr>
+  </table>
+{% endblock %}
