@@ -1,3 +1,5 @@
+{% load url from future %}
+
 {% for field in form %}
   {% if field.errors %}<div class="control-group error">{% else %}<div class="control-group">{% endif %}
     <div class="control-label">{{ field.label_tag }}</div>
