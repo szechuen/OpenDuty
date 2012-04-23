@@ -16,4 +16,5 @@ urlpatterns = patterns('',
 	(r'^member/$', login_required(MemberListView.as_view())),
 	url(r'^member/detail/(?P<pk>\d+)/$', login_required(MemberDetailView.as_view()), name='member_detail'),
 	(r'^event/$', login_required(EventListView.as_view())),
+	url(r'^event/detail/(?P<pk>\d+)/$', login_required(EventDetailView.as_view()), name='event_detail'),
 )

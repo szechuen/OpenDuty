@@ -12,3 +12,7 @@ class MemberDetailView(DetailView):
 class EventListView(ListView):
 	model = Event
 	template_name = "event/list.html"
+
+class EventDetailView(DetailView):
+	model = Event
+	template_name = "event/detail.html"

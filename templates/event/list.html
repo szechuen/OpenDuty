@@ -1,4 +1,5 @@
 {% extends "event/event.html" %}
+{% load url from future %}
 
 {% block title %}Events{% endblock %}
 
@@ -17,7 +18,7 @@
     </thead>
     <tbody>
       {% for event in object_list %}
-        <tr>
+        <tr onclick="document.location = '{% url 'event_detail' pk=event.id %}';">
           <td>{{ event.name }}</td>
           <td>{{ event.begin }}</td>
           <td>{{ event.end }}</td>
