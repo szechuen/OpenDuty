@@ -26,5 +26,5 @@
       {% endfor %}
     </tbody>
   </table>
-  <a href="{% url 'member_create' %}" class="btn btn-primary">Create Member</a>
+  {% if user.is_staff %}<a href="{% url 'member_create' %}" class="btn btn-primary">Create Member</a>{% endif %}
 {% endblock %}
