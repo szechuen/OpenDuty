@@ -9,6 +9,10 @@ class MemberDetailView(DetailView):
 	model = Member
 	template_name = "member/detail.html"
 
+class MemberCreateView(CreateView):
+	model = Member
+	template_name = "member/create.html"
+
 class EventListView(ListView):
 	model = Event
 	template_name = "event/list.html"

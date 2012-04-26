@@ -1,7 +1,7 @@
 from django.conf.urls import patterns, url, include
 from openduty.views import *
 from django.views.generic import TemplateView
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 
 urlpatterns = patterns('',
 	url(r'^accounts/login/$', 'django.contrib.auth.views.login'),
@@ -15,6 +15,7 @@ urlpatterns = patterns('',
 	url(r'^accounts/password_reset_complete/$', 'django.contrib.auth.views.password_reset_complete'),
 	url(r'^member/$', login_required(MemberListView.as_view()), name='member'),
 	url(r'^member/detail/(?P<pk>\d+)/$', login_required(MemberDetailView.as_view()), name='member_detail'),
+	url(r'^member/create/$', user_passes_test(lambda u: u.is_staff)(MemberCreateView.as_view()), name='member_create'),
 	url(r'^event/$', login_required(EventListView.as_view()), name='event'),
 	url(r'^event/detail/(?P<pk>\d+)/$', login_required(EventDetailView.as_view()), name='event_detail'),
 )
