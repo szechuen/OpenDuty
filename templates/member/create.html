@@ -1,0 +1,15 @@
+{% extends "member/member.html" %}
+{% load url from future %}
+
+{% block title %}Create Member{% endblock %}
+
+{% block content %}
+  <form method="post" class="form-horizontal">
+    {% csrf_token %}
+    {% include "form.html" %}
+    <div class="form-actions">
+      <input type="submit" class="btn btn-primary" value="Create Member" />
+      <a href="{% url 'member' %}" class="btn">Cancel</a>
+    </div>
+  </form>
+{% endblock %}
