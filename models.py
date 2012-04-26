@@ -9,7 +9,6 @@ class Member(models.Model):
 	
 	home_phone = models.CharField(max_length=20)
 	mobile_phone = models.CharField(max_length=20)
-	email = models.EmailField()
 
 	def __unicode__(self):
 		return self.name
