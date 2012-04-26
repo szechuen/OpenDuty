@@ -18,7 +18,7 @@
     </thead>
     <tbody>
       {% for event in object_list %}
-        <tr onclick="document.location = '{% url 'event_detail' pk=event.id %}';">
+        <tr onclick="document.location = '{{ event.get_absolute_url }}';">
           <td>{{ event.name }}</td>
           <td>{{ event.begin }}</td>
           <td>{{ event.end }}</td>

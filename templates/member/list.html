@@ -16,7 +16,7 @@
     </thead>
     <tbody>
       {% for member in object_list %}
-        <tr onclick="document.location = '{% url 'member_detail' pk=member.id %}';">
+        <tr onclick="document.location = '{{ member.get_absolute_url }}';">
           <td>{{ member.name }}</td>
           <td>{{ member.class_name }}</td>
           <td>{{ member.home_phone }}</td>

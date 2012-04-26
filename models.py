@@ -14,6 +14,10 @@ class Member(models.Model):
 	def __unicode__(self):
 		return self.name
 
+	@models.permalink
+	def get_absolute_url(self):
+		return ('member_detail', [str(self.id)])
+
 class Event(models.Model):
 	name = models.CharField(max_length=50)
 
@@ -39,6 +43,10 @@ class Event(models.Model):
 
 	def __unicode__(self):
 		return self.name
+
+        @models.permalink
+        def get_absolute_url(self):
+                return ('event_detail', [str(self.id)])
 
 class Assignment(models.Model):
 	member = models.ForeignKey(Member)
