@@ -30,4 +30,5 @@
       {% endfor %}
     </tbody>
   </table>
+  {% if user.is_staff %}<a href="{% url 'event_create' %}" class="btn btn-primary">Create Event</a>{% endif %}
 {% endblock %}

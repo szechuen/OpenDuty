@@ -43,3 +43,12 @@ class EventListView(ListView):
 class EventDetailView(DetailView):
 	model = Event
 	template_name = "event/detail.html"
+
+class EventForm(ModelForm):
+	class Meta:
+		model = Event
+		exclude = ('assignments',)
+
+class EventCreateView(CreateView):
+	form_class = EventForm
+	template_name = "event/create.html"

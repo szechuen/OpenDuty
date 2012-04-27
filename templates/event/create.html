@@ -1,0 +1,15 @@
+{% extends "event/event.html" %}
+{% load url from future %}
+
+{% block title %}Create Event{% endblock %}
+
+{% block content %}
+  <form method="post" class="form-horizontal">
+    {% csrf_token %}
+    {% include "form.html" %}
+    <div class="form-actions">
+      <input type="submit" class="btn btn-primary" value="Create Event" />
+      <a href="{% url 'event' %}" class="btn">Cancel</a>
+    </div>
+  </form>
+{% endblock %}

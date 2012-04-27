@@ -18,4 +18,5 @@ urlpatterns = patterns('',
 	url(r'^member/create/$', user_passes_test(lambda u: u.is_staff)(MemberCreateView.as_view()), name='member_create'),
 	url(r'^event/$', login_required(EventListView.as_view()), name='event'),
 	url(r'^event/detail/(?P<pk>\d+)/$', login_required(EventDetailView.as_view()), name='event_detail'),
+	url(r'^event/create/$', user_passes_test(lambda u: u.is_staff)(EventCreateView.as_view()), name='event_create'),
 )
