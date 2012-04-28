@@ -48,6 +48,10 @@ class EventForm(ModelForm):
 	class Meta:
 		model = Event
 		exclude = ('assignments',)
+		widgets = {
+			'begin': forms.SplitDateTimeWidget(),
+			'end': forms.SplitDateTimeWidget(),
+		}
 
 class EventCreateView(CreateView):
 	form_class = EventForm

@@ -13,3 +13,18 @@
     </div>
   </form>
 {% endblock %}
+
+{% block javascript %}
+  <script>
+    $(function() {
+      $( "#id_begin_0" ).datepicker();
+      $( "#id_begin_1" ).timepicker();
+      $( "#id_end_0" ).datepicker();
+      $( "#id_end_1" ).timepicker();
+    });
+    id_begin_0.placeholder = "Date";
+    id_begin_1.placeholder = "Time";
+    id_end_0.placeholder = "Date";
+    id_end_1.placeholder = "Time";
+  </script>
+{% endblock %}
