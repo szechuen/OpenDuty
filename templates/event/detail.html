@@ -34,5 +34,13 @@
       <th>Video</th>
       <td>{% if event.video %}✔{% endif %}</td>
     </tr>
+    <tr>
+      <th>CIP</th>
+      <td>{% if event.cip %}✔{% endif %}</td>
+    </tr>
+    <tr>
+      <th>Remarks</th>
+      <td>{{ event.remarks }}</td>
+    </tr>
   </table>
 {% endblock %}
