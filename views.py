@@ -36,6 +36,23 @@ class MemberCreateView(CreateView):
 		form.instance.user = user
 		return super(MemberCreateView, self).form_valid(form)
 
+class MemberUpdateView(UpdateView):
+	model = Member
+	form_class = MemberForm
+	template_name = "member/update.html"
+
+	def get_initial(self):
+		initial = super(MemberUpdateView, self).get_initial()
+		initial['email'] = self.get_object().user.email
+		return initial
+
+	def form_valid(self, form):
+		email = form.cleaned_data['email']
+		form.instance.user.email = email
+		form.instance.user.save()
+
+		return super(MemberUpdateView, self).form_valid(form)
+
 class EventListView(ListView):
 	model = Event
 	template_name = "event/list.html"

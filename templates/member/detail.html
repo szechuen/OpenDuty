@@ -27,4 +27,5 @@
       <td>{{ member.user.email }}</td>
     </tr>
   </table>
+  {% if user.is_staff %}<a href="{% url 'member_update' member.id %}" class="btn btn-info">Update Member</a>{% endif %}
 {% endblock %}

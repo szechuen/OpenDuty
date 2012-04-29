@@ -1,0 +1,16 @@
+{% extends "member/member.html" %}
+{% load url from future %}
+
+{% block title %}{{ member.name }}{% endblock %}
+{% block subtitle %}Update Member{% endblock %}
+
+{% block content %}
+  <form method="post" class="form-horizontal">
+    {% csrf_token %}
+    {% include "form.html" %}
+    <div class="form-actions">
+      <input type="submit" class="btn btn-primary" value="Update Member" />
+      <a href="{% url 'member_detail' member.id %}" class="btn">Cancel</a>
+    </div>
+  </form>
+{% endblock %}
