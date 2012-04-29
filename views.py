@@ -58,8 +58,13 @@ class MemberDeleteView(DeleteView):
 	model = Member
 	template_name = "member/delete.html"
 
+	def get_object(self):
+		object = super(MemberDeleteView, self).get_object()
+		self.username = object.user.username
+		return object
+
 	def get_success_url(self):
-		self.get_object().user.delete()
+		User.objects.get(username=self.username).delete()
 		return reverse('member')
 
 class EventListView(ListView):
