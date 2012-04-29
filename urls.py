@@ -20,4 +20,5 @@ urlpatterns = patterns('',
 	url(r'^event/$', login_required(EventListView.as_view()), name='event'),
 	url(r'^event/detail/(?P<pk>\d+)/$', login_required(EventDetailView.as_view()), name='event_detail'),
 	url(r'^event/create/$', user_passes_test(lambda u: u.is_staff)(EventCreateView.as_view()), name='event_create'),
+	url(r'^event/update/(?P<pk>\d+)/$', user_passes_test(lambda u: u.is_staff)(EventUpdateView.as_view()), name='event_update'),
 )

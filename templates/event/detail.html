@@ -43,4 +43,5 @@
       <td>{{ event.remarks }}</td>
     </tr>
   </table>
+  {% if user.is_staff %}<a href="{% url 'event_update' event.id %}" class="btn btn-info">Update Event</a>{% endif %}
 {% endblock %}

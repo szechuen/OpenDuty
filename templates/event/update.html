@@ -1,15 +1,16 @@
 {% extends "event/event.html" %}
 {% load url from future %}
 
-{% block title %}Create Event{% endblock %}
+{% block title %}{{ event.name }}{% endblock %}
+{% block subtitle %}Update Event{% endblock %}
 
 {% block content %}
   <form method="post" class="form-horizontal">
     {% csrf_token %}
     {% include "form.html" %}
     <div class="form-actions">
-      <input type="submit" class="btn btn-primary" value="Create Event" />
-      <a href="{% url 'event' %}" class="btn">Cancel</a>
+      <input type="submit" class="btn btn-primary" value="Update Event" />
+      <a href="{% url 'event_detail' event.id %}" class="btn">Cancel</a>
     </div>
   </form>
 {% endblock %}
@@ -25,7 +26,7 @@
         altField: "#id_end_1",
       });
       $( "#id_end_0" ).datepicker({
-        dateFormat: "yy-mm-dd",
+      	dateFormat: "yy-mm-dd",
       });
       $( "#id_end_1" ).timepicker();
     });

@@ -73,3 +73,8 @@ class EventForm(ModelForm):
 class EventCreateView(CreateView):
 	form_class = EventForm
 	template_name = "event/create.html"
+
+class EventUpdateView(UpdateView):
+	model = Event
+	form_class = EventForm
+	template_name = "event/update.html"
