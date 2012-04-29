@@ -27,5 +27,8 @@
       <td>{{ member.user.email }}</td>
     </tr>
   </table>
-  {% if user.is_staff %}<a href="{% url 'member_update' member.id %}" class="btn btn-info">Update Member</a>{% endif %}
+  {% if user.is_staff %}
+    <a href="{% url 'member_update' member.id %}" class="btn btn-info">Update Member</a>
+    <a href="{% url 'member_delete' member.id %}" class="btn btn-danger">Delete Member</a>
+  {% endif %}
 {% endblock %}

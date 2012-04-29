@@ -1,0 +1,17 @@
+{% extends "member/member.html" %}
+{% load url from future %}
+
+{% block title %}{{ member.name }}{% endblock %}
+{% block subtitle %}Delete Member{% endblock %}
+
+{% block content %}
+  <form method="post" class="form-horizontal">
+    {% csrf_token %}
+    {% include "form.html" %}
+    <h4>Do you really want to delete {{ member.name }}?</h4>
+    <div class="form-actions">
+      <input type="submit" class="btn btn-danger" value="Delete Member" />
+      <a href="{% url 'member_detail' member.id %}" class="btn">Cancel</a>
+    </div>
+  </form>
+{% endblock %}

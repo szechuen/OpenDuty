@@ -54,6 +54,13 @@ class MemberUpdateView(UpdateView):
 
 		return super(MemberUpdateView, self).form_valid(form)
 
+class MemberDeleteView(DeleteView):
+	model = Member
+	template_name = "member/delete.html"
+
+	def get_success_url(self):
+		return reverse('member')
+
 class EventListView(ListView):
 	model = Event
 	template_name = "event/list.html"
