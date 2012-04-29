@@ -17,8 +17,12 @@
 {% block javascript %}
   <script>
     $(function() {
-      $( "#id_begin_0" ).datepicker();
-      $( "#id_begin_1" ).timepicker();
+      $( "#id_begin_0" ).datepicker({
+        altField: "#id_end_0",
+      });
+      $( "#id_begin_1" ).timepicker({
+        altField: "#id_end_1",
+      });
       $( "#id_end_0" ).datepicker();
       $( "#id_end_1" ).timepicker();
     });
