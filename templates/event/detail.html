@@ -43,5 +43,8 @@
       <td>{{ event.remarks }}</td>
     </tr>
   </table>
-  {% if user.is_staff %}<a href="{% url 'event_update' event.id %}" class="btn btn-info">Update Event</a>{% endif %}
+  {% if user.is_staff %}
+    <a href="{% url 'event_update' event.id %}" class="btn btn-info">Update Event</a>
+    <a href="{% url 'event_delete' event.id %}" class="btn btn-danger">Delete Event</a>
+  {% endif %}
 {% endblock %}

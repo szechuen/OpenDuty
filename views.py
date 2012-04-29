@@ -4,6 +4,7 @@ from django import forms
 from openduty.models import *
 from django.contrib.auth.models import User
 from django.template.loader import render_to_string
+from django.core.urlresolvers import reverse
 import re
 
 class MemberListView(ListView):
@@ -78,3 +79,10 @@ class EventUpdateView(UpdateView):
 	model = Event
 	form_class = EventForm
 	template_name = "event/update.html"
+
+class EventDeleteView(DeleteView):
+	model = Event
+	template_name = "event/delete.html"
+	
+	def get_success_url(self):
+		return reverse('event')

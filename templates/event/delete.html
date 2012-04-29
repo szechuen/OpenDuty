@@ -1,0 +1,17 @@
+{% extends "event/event.html" %}
+{% load url from future %}
+
+{% block title %}{{ event.name }}{% endblock %}
+{% block subtitle %}Delete Event{% endblock %}
+
+{% block content %}
+  <form method="post" class="form-horizontal">
+    {% csrf_token %}
+    {% include "form.html" %}
+    <h4>Do you really want to delete {{ event.name }}?</h4>
+    <div class="form-actions">
+      <input type="submit" class="btn btn-danger" value="Delete Event" />
+      <a href="{% url 'event_detail' event.id %}" class="btn">Cancel</a>
+    </div>
+  </form>
+{% endblock %}
