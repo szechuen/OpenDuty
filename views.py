@@ -59,6 +59,7 @@ class MemberDeleteView(DeleteView):
 	template_name = "member/delete.html"
 
 	def get_success_url(self):
+		self.get_object().user.delete()
 		return reverse('member')
 
 class EventListView(ListView):
