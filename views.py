@@ -99,3 +99,22 @@ class EventDeleteView(DeleteView):
 	
 	def get_success_url(self):
 		return reverse('event')
+
+class AssignmentForm(ModelForm):
+	class Meta:
+		model = Assignment
+		exclude = ('event','status',)
+
+class AssignmentCreateView(CreateView):
+	form_class = AssignmentForm
+	template_name = "assignment/create.html"
+
+	def get_context_data(self, **kwargs):
+		context = super(AssignmentCreateView, self).get_context_data(**kwargs)
+		context['event'] = Event.objects.get(id=self.kwargs['event_pk'])
+		return context
+
+	def form_valid(self, form):
+		form.instance.event = Event.objects.get(id=self.kwargs['event_pk'])
+		form.instance.status = 'Approved'
+		return super(AssignmentCreateView, self).form_valid(form)

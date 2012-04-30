@@ -68,3 +68,7 @@ class Assignment(models.Model):
 
 	def __unicode__(self):
 		return self.member.name + " -> " + self.event.name
+
+	@models.permalink
+	def get_absolute_url(self):
+		return ('event_detail', [str(self.event.id)])
