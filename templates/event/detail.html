@@ -83,5 +83,7 @@
   </table>
   {% if user.is_staff %}
     <a href="{% url 'assignment_create' event.id %}" class="btn btn-primary">Create Assignment</a>
+  {% else %}
+    <a href="{% url 'assignment_signup' event.id %}" class="btn btn-success">Sign Up</a>
   {% endif %}
 {% endblock %}

@@ -144,3 +144,18 @@ class AssignmentDeleteView(DeleteView):
 
 	def get_success_url(self):
 		return self.get_absolute_url
+
+class SignUpForm(AssignmentForm):
+	class Meta:
+		model = Assignment
+		exclude = ('member','event','status',)
+
+class SignUpView(AssignmentCreateView):
+	form_class = SignUpForm
+	template_name = "assignment/signup.html"
+
+	def form_valid(self, form):
+		form.instance.member = self.request.user.member
+		form.instance.event = Event.objects.get(id=self.kwargs['event_pk'])
+		form.instance.status = 'Pending Approval'
+		return super(AssignmentCreateView, self).form_valid(form)
