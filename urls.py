@@ -27,4 +27,5 @@ urlpatterns = patterns('',
 	url(r'^event/delete/(?P<pk>\d+)/$', user_passes_test(lambda u: u.is_staff)(EventDeleteView.as_view()), name='event_delete'),
 
 	url(r'^assignment/create/event/(?P<event_pk>\d+)/$', user_passes_test(lambda u: u.is_staff)(AssignmentCreateView.as_view()), name='assignment_create'),
+	url(r'^assignment/update/(?P<pk>\d+)/$', user_passes_test(lambda u: u.is_staff)(AssignmentUpdateView.as_view()), name='assignment_update'),
 )

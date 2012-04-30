@@ -58,6 +58,7 @@
         <th>Type</th>
         <th>Status</th>
         <th>Remarks</th>
+        {% if user.is_staff %}<th style="width: 150px;">Actions</th>{% endif %}
       </tr>
     </thead>
     <tbody>
@@ -70,6 +71,11 @@
           <td>{{ assignment.type }}</td>
           <td>{{ assignment.status }}</td>
           <td>{{ assignment.remarks }}</td>
+          {% if user.is_staff %}
+            <td>
+              <a href="{% url 'assignment_update' assignment.id %}" class="btn btn-info">Update</a>
+            </td>
+          {% endif %}
         </tr>
       {% endfor %}
     </tbody>

@@ -1,0 +1,16 @@
+{% extends "event/event.html" %}
+{% load url from future %}
+
+{% block title %}{{ assignment.member.name }} → {{ assignment.event.name }}{% endblock %}
+{% block subtitle %}Update Assignment{% endblock %}
+
+{% block content %}
+  <form method="post" class="form-horizontal">
+    {% csrf_token %}
+    {% include "form.html" %}
+    <div class="form-actions">
+      <input type="submit" class="btn btn-primary" value="Update Assignment" />
+      <a href="{{ assignment.get_absolute_url }}" class="btn">Cancel</a>
+    </div>
+  </form>
+{% endblock %}

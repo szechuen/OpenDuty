@@ -118,3 +118,8 @@ class AssignmentCreateView(CreateView):
 		form.instance.event = Event.objects.get(id=self.kwargs['event_pk'])
 		form.instance.status = 'Approved'
 		return super(AssignmentCreateView, self).form_valid(form)
+
+class AssignmentUpdateView(UpdateView):
+	model = Assignment
+	form_class = AssignmentForm
+	template_name = "assignment/update.html"
