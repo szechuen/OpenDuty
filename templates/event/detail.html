@@ -47,4 +47,31 @@
     <a href="{% url 'event_update' event.id %}" class="btn btn-info">Update Event</a>
     <a href="{% url 'event_delete' event.id %}" class="btn btn-danger">Delete Event</a>
   {% endif %}
+  <h2 class="new-section">Assignments</h2>
+  <table class="table table-striped table-bordered">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Home Phone</th>
+        <th>Mobile Phone</th>
+        <th>Email</th>
+        <th>Type</th>
+        <th>Status</th>
+        <th>Remarks</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for assignment in event.assignment_set.all %}
+        <tr onclick="document.location = '{{ assignment.member.get_absolute_url }}';">
+          <td>{{ assignment.member.name }}</td>
+          <td>{{ assignment.member.home_phone }}</td>
+          <td>{{ assignment.member.mobile_phone }}</td>
+          <td>{{ assignment.member.user.email }}</td>
+          <td>{{ assignment.type }}</td>
+          <td>{{ assignment.status }}</td>
+          <td>{{ assignment.remarks }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
 {% endblock %}
