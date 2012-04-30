@@ -58,7 +58,7 @@
         <th>Type</th>
         <th>Status</th>
         <th>Remarks</th>
-        {% if user.is_staff %}<th style="width: 150px;">Actions</th>{% endif %}
+        {% if user.is_staff %}<th style="width: 130px;">Actions</th>{% endif %}
       </tr>
     </thead>
     <tbody>
@@ -74,6 +74,7 @@
           {% if user.is_staff %}
             <td>
               <a href="{% url 'assignment_update' assignment.id %}" class="btn btn-info">Update</a>
+              <a href="{% url 'assignment_delete' assignment.id %}" class="btn btn-danger">Delete</a>
             </td>
           {% endif %}
         </tr>

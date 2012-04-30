@@ -123,3 +123,15 @@ class AssignmentUpdateView(UpdateView):
 	model = Assignment
 	form_class = AssignmentForm
 	template_name = "assignment/update.html"
+
+class AssignmentDeleteView(DeleteView):
+	model = Assignment
+	template_name = "assignment/delete.html"
+
+	def get_object(self):
+		object = super(AssignmentDeleteView, self).get_object()
+		self.get_absolute_url = object.get_absolute_url()
+		return object
+
+	def get_success_url(self):
+		return self.get_absolute_url
