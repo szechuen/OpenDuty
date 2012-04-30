@@ -11,7 +11,7 @@
     <h4>Do you really want to delete {{ event.name }}?</h4>
     <div class="form-actions">
       <input type="submit" class="btn btn-danger" value="Delete Event" />
-      <a href="{% url 'event_detail' event.id %}" class="btn">Cancel</a>
+      <a href="{{ event.get_absolute_url }}" class="btn">Cancel</a>
     </div>
   </form>
 {% endblock %}

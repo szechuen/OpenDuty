@@ -10,7 +10,7 @@
     {% include "form.html" %}
     <div class="form-actions">
       <input type="submit" class="btn btn-primary" value="Update Event" />
-      <a href="{% url 'event_detail' event.id %}" class="btn">Cancel</a>
+      <a href="{{ event.get_absolute_url }}" class="btn">Cancel</a>
     </div>
   </form>
 {% endblock %}
