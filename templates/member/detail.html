@@ -26,9 +26,48 @@
       <th>Email</th>
       <td>{{ member.user.email }}</td>
     </tr>
+    <tr>
+      <th>Duty Duration</th>
+      <td>{{ total_duration }} hour(s)</td>
+    </tr>
+    <tr>
+      <th>CIP Duration</th>
+      <td>{{ total_cip_duration }} hour(s)</td>
+    </tr>
   </table>
   {% if user.is_staff %}
     <a href="{% url 'member_update' member.id %}" class="btn btn-info">Update Member</a>
     <a href="{% url 'member_delete' member.id %}" class="btn btn-danger">Delete Member</a>
   {% endif %}
+  <h2 class="new-section">Assignments</h2>
+  <table class="table table-striped table-bordered">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Begin</th>
+        <th>End</th>
+        <th>Venue</th>
+        <th>Type</th>
+        <th>Status</th>
+        <th>Remarks</th>
+        <th>Duration</th>
+        <th>CIP</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for assignment in member.assignment_set.all %}
+        <tr onclick="document.location = '{{ assignment.event.get_absolute_url }}';">
+          <td>{{ assignment.event.name }}</td>
+          <td>{{ assignment.event.begin }}</td>
+          <td>{{ assignment.event.end }}</td>
+          <td>{{ assignment.event.venue }}</td>
+          <td>{{ assignment.type }}</td>
+          <td>{{ assignment.status }}</td>
+          <td>{{ assignment.remarks }}</td>
+          <td>{{ assignment.event.duration }}</td>
+          <td>{% if assignment.event.cip %}✔{% endif %}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
 {% endblock %}

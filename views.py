@@ -15,6 +15,15 @@ class MemberDetailView(DetailView):
 	model = Member
 	template_name = "member/detail.html"
 
+	def get_context_data(self, **kwargs):
+		context = super(MemberDetailView, self).get_context_data(**kwargs)
+		context['total_duration'] = 0
+		context['total_cip_duration'] = 0
+		for assignment in context['member'].assignment_set.all():
+			context['total_duration'] += assignment.event.duration()
+			context['total_cip_duration'] += assignment.event.cip_duration()
+		return context
+
 class MemberForm(ModelForm):
 	email = forms.EmailField()
 
