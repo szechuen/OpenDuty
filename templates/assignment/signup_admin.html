@@ -1,0 +1,16 @@
+{% extends "admin.html" %}
+{% load url from future %}
+
+{% block title %}{{ assignment.member.name }} → {{ assignment.event.name }}{% endblock %}
+{% block subtitle %}Update Sign Up{% endblock %}
+
+{% block content %}
+  <form method="post" class="form-horizontal">
+    {% csrf_token %}
+    {% include "form.html" %}
+    <div class="form-actions">
+      <input type="submit" class="btn btn-primary" value="Update Sign Up" />
+      <a href="{% url 'assignment_signup_queue' %}" class="btn">Cancel</a>
+    </div>
+  </form>
+{% endblock %}

@@ -30,4 +30,6 @@ urlpatterns = patterns('',
 	url(r'^assignment/update/(?P<pk>\d+)/$', user_passes_test(lambda u: u.is_staff)(AssignmentUpdateView.as_view()), name='assignment_update'),
 	url(r'^assignment/delete/(?P<pk>\d+)/$', user_passes_test(lambda u: u.is_staff)(AssignmentDeleteView.as_view()), name='assignment_delete'),
 	url(r'^assignment/signup/event/(?P<event_pk>\d+)/$', login_required(SignUpView.as_view()), name='assignment_signup'),
+	url(r'^assignment/signup/queue/$', user_passes_test(lambda u: u.is_staff)(SignUpQueueView.as_view()), name='assignment_signup_queue'),
+	url(r'^assignment/signup/admin/(?P<pk>\d+)/$', user_passes_test(lambda u: u.is_staff)(SignUpAdminView.as_view()), name='assignment_signup_admin'),
 )

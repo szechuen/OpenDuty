@@ -159,3 +159,19 @@ class SignUpView(AssignmentCreateView):
 		form.instance.event = Event.objects.get(id=self.kwargs['event_pk'])
 		form.instance.status = 'Pending Approval'
 		return super(AssignmentCreateView, self).form_valid(form)
+
+class SignUpQueueView(ListView):
+	queryset = Assignment.objects.filter(status='Pending Approval')
+	template_name = "assignment/signup_queue.html"
+
+class SignUpAdminForm(AssignmentForm):
+	class Meta:
+		model = Assignment
+		fields = ('status',)
+
+class SignUpAdminView(AssignmentUpdateView):
+	form_class = SignUpAdminForm
+	template_name = "assignment/signup_admin.html"
+
+	def get_success_url(self):
+		return reverse('assignment_signup_queue')	
