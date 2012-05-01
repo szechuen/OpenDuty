@@ -8,6 +8,9 @@
 {% block content %}
   {% for action in object_list %}
     <h4>
+      {% if action.action_object_content_type.name == 'member' %}<i class="icon-user"></i>{% endif %}
+      {% if action.action_object_content_type.name == 'event' %}<i class="icon-calendar"></i>{% endif %}
+      {% if action.action_object_content_type.name == 'assignment' %}<i class="icon-briefcase"></i>{% endif %}
       <a href="{{ action.actor.get_absolute_url }}">{{ action.actor }}</a>
       {{ action.verb }}
       <a href="{{ action.action_object.get_absolute_url }}">{{ action.action_object }}</a>

@@ -67,7 +67,7 @@ class Assignment(models.Model):
 	remarks = models.TextField(blank=True)
 
 	def __unicode__(self):
-		return self.member.name + " -> " + self.event.name
+		return self.member.name + " >> " + self.event.name
 
 	@models.permalink
 	def get_absolute_url(self):
