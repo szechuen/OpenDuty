@@ -3,9 +3,15 @@ from django.forms import ModelForm
 from django import forms
 from openduty.models import *
 from django.contrib.auth.models import User
+from actstream.models import Action
+from actstream import action
 from django.template.loader import render_to_string
 from django.core.urlresolvers import reverse
 import re
+
+class DashboardView(ListView):
+	model = Action
+	template_name = "dashboard.html"
 
 class MemberListView(ListView):
 	model = Member
@@ -44,6 +50,8 @@ class MemberCreateView(CreateView):
 		user.email_user("OpenDuty: User Created", render_to_string("member/create_email.html", {'username': username, 'password': password}))
 
 		form.instance.user = user
+		self.object = form.save()
+		action.send(self.request.user.member, verb='created', action_object=self.object)
 		return super(MemberCreateView, self).form_valid(form)
 
 class MemberUpdateView(UpdateView):
@@ -61,6 +69,8 @@ class MemberUpdateView(UpdateView):
 		form.instance.user.email = email
 		form.instance.user.save()
 
+		self.object = form.save()
+		action.send(self.request.user.member, verb='updated', action_object=self.object)
 		return super(MemberUpdateView, self).form_valid(form)
 
 class MemberDeleteView(DeleteView):
@@ -97,10 +107,20 @@ class EventCreateView(CreateView):
 	form_class = EventForm
 	template_name = "event/create.html"
 
+	def form_valid(self, form):
+		self.object = form.save()
+		action.send(self.request.user.member, verb='created', action_object=self.object)
+		return super(EventCreateView, self).form_valid(form)
+
 class EventUpdateView(UpdateView):
 	model = Event
 	form_class = EventForm
 	template_name = "event/update.html"
+
+	def form_valid(self, form):
+		self.object = form.save()
+		action.send(self.request.user.member, verb='updated', action_object=self.object)
+		return super(EventUpdateView, self).form_valid(form)
 
 class EventDeleteView(DeleteView):
 	model = Event
@@ -126,12 +146,20 @@ class AssignmentCreateView(CreateView):
 	def form_valid(self, form):
 		form.instance.event = Event.objects.get(id=self.kwargs['event_pk'])
 		form.instance.status = 'Approved'
+
+		self.object = form.save()
+		action.send(self.request.user.member, verb='assigned', action_object=self.object, target=self.object.event)
 		return super(AssignmentCreateView, self).form_valid(form)
 
 class AssignmentUpdateView(UpdateView):
 	model = Assignment
 	form_class = AssignmentForm
 	template_name = "assignment/update.html"
+
+	def form_valid(self, form):
+		self.object = form.save()
+		action.send(self.request.user.member, verb='updated', action_object=self.object, target=self.object.event)
+		return super(AssignmentUpdateView, self).form_valid(form)
 
 class AssignmentDeleteView(DeleteView):
 	model = Assignment
@@ -145,33 +173,50 @@ class AssignmentDeleteView(DeleteView):
 	def get_success_url(self):
 		return self.get_absolute_url
 
-class SignUpForm(AssignmentForm):
+class SignUpForm(ModelForm):
 	class Meta:
 		model = Assignment
 		exclude = ('member','event','status',)
 
-class SignUpView(AssignmentCreateView):
+class SignUpView(CreateView):
 	form_class = SignUpForm
 	template_name = "assignment/signup.html"
+
+	def get_context_data(self, **kwargs):
+		context = super(SignUpView, self).get_context_data(**kwargs)
+		context['event'] = Event.objects.get(id=self.kwargs['event_pk'])
+		return context
 
 	def form_valid(self, form):
 		form.instance.member = self.request.user.member
 		form.instance.event = Event.objects.get(id=self.kwargs['event_pk'])
 		form.instance.status = 'Pending Approval'
-		return super(AssignmentCreateView, self).form_valid(form)
+
+		self.object = form.save()
+		action.send(self.request.user.member, verb='signed up for', action_object=self.object, target=self.object.event)
+		return super(SignUpView, self).form_valid(form)
 
 class SignUpQueueView(ListView):
 	queryset = Assignment.objects.filter(status='Pending Approval')
 	template_name = "assignment/signup_queue.html"
 
-class SignUpAdminForm(AssignmentForm):
+class SignUpAdminForm(ModelForm):
 	class Meta:
 		model = Assignment
 		fields = ('status',)
 
-class SignUpAdminView(AssignmentUpdateView):
+class SignUpAdminView(UpdateView):
+	model = Assignment
 	form_class = SignUpAdminForm
 	template_name = "assignment/signup_admin.html"
 
+	def form_valid(self, form):
+		self.object = form.save()
+		if self.object.status=='Approved':
+			action.send(self.request.user.member, verb='approved', action_object=self.object, target=self.object.event)
+		elif self.object.status=='Rejected':
+			action.send(self.request.user.member, verb='rejected', action_object=self.object, target=self.object.event)
+		return super(SignUpAdminView, self).form_valid(form)
+
 	def get_success_url(self):
-		return reverse('assignment_signup_queue')	
+		return reverse('assignment_signup_queue')

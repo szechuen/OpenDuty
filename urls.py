@@ -4,6 +4,8 @@ from django.views.generic import TemplateView
 from django.contrib.auth.decorators import login_required, user_passes_test
 
 urlpatterns = patterns('',
+	url(r'^dashboard/$', login_required(DashboardView.as_view()), name='dashboard'),
+
 	url(r'^accounts/login/$', 'django.contrib.auth.views.login'),
 	url(r'^accounts/logout/$', 'django.contrib.auth.views.logout'),
 	url(r'^accounts/profile/$', login_required(TemplateView.as_view(template_name="registration/profile.html")), name='accounts_profile'),

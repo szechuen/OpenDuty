@@ -1,0 +1,17 @@
+{% extends "base_content.html" %}
+{% load url from future %}
+
+{% block dashboard_active %} class="active"{% endblock %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+  {% for action in object_list %}
+    <h4>
+      <a href="{{ action.actor.get_absolute_url }}">{{ action.actor }}</a>
+      {{ action.verb }}
+      <a href="{{ action.action_object.get_absolute_url }}">{{ action.action_object }}</a>
+      <small>{{ action.timesince }} ago</small>
+    </h4>
+  {% endfor %}
+{% endblock %}
