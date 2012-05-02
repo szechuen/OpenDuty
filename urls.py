@@ -2,8 +2,10 @@ from django.conf.urls import patterns, url, include
 from openduty.views import *
 from django.views.generic import TemplateView
 from django.contrib.auth.decorators import login_required, user_passes_test
+from django.core.urlresolvers import reverse_lazy
 
 urlpatterns = patterns('',
+	url(r'^$', RedirectView.as_view(url=reverse_lazy('dashboard')), name='root'),
 	url(r'^dashboard/$', login_required(DashboardView.as_view()), name='dashboard'),
 
 	url(r'^accounts/login/$', 'django.contrib.auth.views.login'),
