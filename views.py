@@ -13,6 +13,11 @@ class DashboardView(ListView):
 	queryset = Action.objects.all()[:20]
 	template_name = "dashboard.html"
 
+	def get_context_data(self, **kwargs):
+		context = super(DashboardView, self).get_context_data(**kwargs)
+		context['pending_assignments'] = Assignment.objects.filter(status='Pending Approval', member=self.request.user.member)
+		return context
+
 class MemberListView(ListView):
 	model = Member
 	template_name = "member/list.html"
