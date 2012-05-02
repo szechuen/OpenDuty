@@ -54,11 +54,11 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </a>
-          <a class="brand" href="/">OpenDuty</a>
+          <a class="brand" href="{% url 'root' %}">OpenDuty</a>
           <div class="nav-collapse">
             {% if user.is_authenticated %}
               <ul class="nav">
-                <li{% block dashboard_active %}{% endblock %}><a href="/dashboard/">Dashboard</a></li>
+                <li{% block dashboard_active %}{% endblock %}><a href="{% url 'dashboard' %}">Dashboard</a></li>
                 <li{% block member_active %}{% endblock %}><a href="{% url 'member' %}">Members</a></li>
                 <li{% block event_active %}{% endblock %}><a href="{% url 'event' %}">Events</a></li>
                 {% if user.is_staff %}
