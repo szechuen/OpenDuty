@@ -6,15 +6,20 @@
 {% block title %}Dashboard{% endblock %}
 
 {% block content %}
-  {% for action in object_list %}
-    <h4>
-      {% if action.action_object_content_type.name == 'member' %}<i class="icon-user"></i>{% endif %}
-      {% if action.action_object_content_type.name == 'event' %}<i class="icon-calendar"></i>{% endif %}
-      {% if action.action_object_content_type.name == 'assignment' %}<i class="icon-briefcase"></i>{% endif %}
-      <a href="{{ action.actor.get_absolute_url }}">{{ action.actor }}</a>
-      {{ action.verb }}
-      <a href="{{ action.action_object.get_absolute_url }}">{{ action.action_object }}</a>
-      <small>{{ action.timesince }} ago</small>
-    </h4>
-  {% endfor %}
+  {% if object_list %}
+    <h1 style="line-height: 0px; padding-bottom: 25px;"><small>Activity Stream</small></h1>
+    {% for action in object_list %}
+      <h4>
+        {% if action.action_object_content_type.name == 'member' %}<i class="icon-user" style="vertical-align: -1px;"></i>{% endif %}
+        {% if action.action_object_content_type.name == 'event' %}<i class="icon-calendar" style="vertical-align: -1px;"></i>{% endif %}
+        {% if action.action_object_content_type.name == 'assignment' %}<i class="icon-briefcase" style="vertical-align: -1px;"></i>{% endif %}
+        <a href="{{ action.actor.get_absolute_url }}">{{ action.actor }}</a>
+        {{ action.verb }}
+        <a href="{{ action.action_object.get_absolute_url }}">{{ action.action_object }}</a>
+        <small>{{ action.timesince }} ago</small>
+      </h4>
+    {% endfor %}
+  {% else %}
+    <h1><small>No recorded action in activity stream</small></h1>
+  {% endif %}
 {% endblock %}

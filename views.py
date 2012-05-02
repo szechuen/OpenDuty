@@ -10,7 +10,7 @@ from django.core.urlresolvers import reverse
 import re
 
 class DashboardView(ListView):
-	model = Action
+	queryset = Action.objects.all()[:20]
 	template_name = "dashboard.html"
 
 class MemberListView(ListView):
