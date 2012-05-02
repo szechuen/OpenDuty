@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 from actstream.models import Action
 from actstream import action
 from django.template.loader import render_to_string
-from django.core.urlresolvers import reverse
+from django.core.urlresolvers import reverse_lazy
 import re
 
 class DashboardView(ListView):
@@ -76,6 +76,7 @@ class MemberUpdateView(UpdateView):
 class MemberDeleteView(DeleteView):
 	model = Member
 	template_name = "member/delete.html"
+	success_url = reverse_lazy('member')
 
 	def get_object(self):
 		object = super(MemberDeleteView, self).get_object()
@@ -84,7 +85,7 @@ class MemberDeleteView(DeleteView):
 
 	def get_success_url(self):
 		User.objects.get(username=self.username).delete()
-		return reverse('member')
+		return super(MemberDeleteView, self).get_success_url()
 
 class EventListView(ListView):
 	model = Event
@@ -125,9 +126,7 @@ class EventUpdateView(UpdateView):
 class EventDeleteView(DeleteView):
 	model = Event
 	template_name = "event/delete.html"
-	
-	def get_success_url(self):
-		return reverse('event')
+	success_url = reverse_lazy('event')
 
 class AssignmentForm(ModelForm):
 	class Meta:
@@ -209,6 +208,7 @@ class SignUpAdminView(UpdateView):
 	model = Assignment
 	form_class = SignUpAdminForm
 	template_name = "assignment/signup_admin.html"
+	success_url = reverse_lazy('assignment_signup_queue')
 
 	def form_valid(self, form):
 		self.object = form.save()
@@ -217,6 +217,3 @@ class SignUpAdminView(UpdateView):
 		elif self.object.status=='Rejected':
 			action.send(self.request.user.member, verb='rejected', action_object=self.object, target=self.object.event)
 		return super(SignUpAdminView, self).form_valid(form)
-
-	def get_success_url(self):
-		return reverse('assignment_signup_queue')
