@@ -12,7 +12,7 @@ class Command(BaseCommand):
 			alert_time = args[0]
 
 			for event in Event.objects.filter(reminder_sent=False):
-				if (event.begin-datetime.now()).total_seconds()/3600 < alert_time:
+				if (event.begin-datetime.utcnow()).total_seconds()/3600 < alert_time:
 					for member in event.assignments:
 						member.user.email_user("OpenDuty: Event Reminder ("+event.name+")", render_to_string("event/reminder_email.html", {'event': event}))
 					event.reminder_sent = True
