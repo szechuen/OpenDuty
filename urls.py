@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.core.urlresolvers import reverse_lazy
 
 urlpatterns = patterns('',
-	url(r'^$', RedirectView.as_view(url=reverse_lazy('dashboard')), name='root'),
+	url(r'^$', RedirectView.as_view(url=reverse_lazy('dashboard'), permanent=False), name='root'),
 	url(r'^dashboard/$', login_required(DashboardView.as_view()), name='dashboard'),
 
 	url(r'^accounts/login/$', 'django.contrib.auth.views.login'),
