@@ -8,7 +8,7 @@ class Command(BaseCommand):
 	help = "Sends reminders <alert_time> hour(s) prior to event"
 
 	def handle(self, *args, **options):
-		if args[0]:
+		try:
 			alert_time = args[0]
 
 			for event in Event.objects.filter(reminder_sent=False):
@@ -19,5 +19,5 @@ class Command(BaseCommand):
 					event.save()
 
 			self.stdout.write("Successfully sent reminders\n")
-		else:
+		except IndexError:
 			raise CommandError("<alert_time> not present")
