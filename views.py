@@ -7,7 +7,7 @@ from actstream.models import Action
 from actstream import action
 from django.template.loader import render_to_string
 from django.core.urlresolvers import reverse_lazy
-from datetime import datetime
+from django.utils import timezone
 import re
 
 def mail_staff(subject, message):
@@ -108,13 +108,13 @@ class EventListView(ListView):
 	template_name = "event/list.html"
 
 	def get_queryset(self):
-		return Event.objects.filter(end__gte=datetime.now()).order_by('begin')
+		return Event.objects.filter(end__gte=timezone.now()).order_by('begin')
 
 class PastEventListView(ListView):
 	template_name = "event/list_past.html"
 
 	def get_queryset(self):
-		return Event.objects.filter(end__lt=datetime.now()).order_by('-begin')
+		return Event.objects.filter(end__lt=timezone.now()).order_by('-begin')
 
 class EventDetailView(DetailView):
 	model = Event
@@ -135,7 +135,7 @@ class EventCreateView(CreateView):
 
 	def form_valid(self, form):
 		form.instance.reminder_sent = False
-		
+
 		self.object = form.save()
 		action.send(self.request.user.member, verb='created', action_object=self.object)
 		mail_all("OpenDuty: Event Created ("+self.object.name+")", render_to_string("event/create_email.html", {'event': self.object}))
