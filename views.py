@@ -7,6 +7,7 @@ from actstream.models import Action
 from actstream import action
 from django.template.loader import render_to_string
 from django.core.urlresolvers import reverse_lazy
+from datetime import datetime
 import re
 
 class DashboardView(ListView):
@@ -93,8 +94,16 @@ class MemberDeleteView(DeleteView):
 		return super(MemberDeleteView, self).get_success_url()
 
 class EventListView(ListView):
-	model = Event
 	template_name = "event/list.html"
+
+	def get_queryset(self):
+		return Event.objects.filter(end__gte=datetime.now()).order_by('begin')
+
+class PastEventListView(ListView):
+	template_name = "event/list_past.html"
+
+	def get_queryset(self):
+		return Event.objects.filter(end__lt=datetime.now()).order_by('-begin')
 
 class EventDetailView(DetailView):
 	model = Event

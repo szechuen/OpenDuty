@@ -1,7 +1,7 @@
 {% extends "event/event.html" %}
 {% load url from future %}
 
-{% block title %}Events{% endblock %}
+{% block title %}Past Events{% endblock %}
 
 {% block content %}
   <table class="table table-striped table-bordered">
@@ -30,6 +30,5 @@
       {% endfor %}
     </tbody>
   </table>
-  {% if user.is_staff %}<a href="{% url 'event_create' %}" class="btn btn-primary">Create Event</a>{% endif %}
-  <a href="{% url 'event_past' %}" class="btn btn-inverse">Past Events</a>
+  <a href="{% url 'event' %}" class="btn btn-inverse">Upcoming Events</a>
 {% endblock %}
