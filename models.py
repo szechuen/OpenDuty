@@ -10,6 +10,8 @@ class Member(models.Model):
 	home_phone = models.CharField(max_length=20)
 	mobile_phone = models.CharField(max_length=20)
 
+	facebook = models.CharField(max_length=50, blank=True)
+
 	def __unicode__(self):
 		return self.name
 
