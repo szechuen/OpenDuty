@@ -22,6 +22,18 @@
   {% else %}
     <h1><small>No recorded action in activity stream</small></h1>
   {% endif %}
+  {% if upcoming_assignments %}
+    <h1 class="new-section" style="line-height: 0px; padding-bottom: 25px;"><small>Upcoming Assignments for {{ user.member.name }}</small></h1>
+    {% for assignment in upcoming_assignments %}
+      <h4>
+        <i class="icon-briefcase" style="vertical-align: -1px;"></i>
+        <a href="{{ assignment.get_absolute_url }}">{{ assignment }}</a>
+        <small>{{ assignment.event.begin }}</small>
+      </h4>
+    {% endfor %}
+  {% else %}
+    <h1 class="new-section"><small>You have no upcoming assignment</small></h1>
+  {% endif %}
   {% if pending_assignments %}
     <h1 class="new-section" style="line-height: 0px; padding-bottom: 25px;"><small>Pending Assignments for {{ user.member.name }}</small></h1>
     {% for assignment in pending_assignments %}

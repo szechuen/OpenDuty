@@ -24,6 +24,7 @@ class DashboardView(ListView):
 
 	def get_context_data(self, **kwargs):
 		context = super(DashboardView, self).get_context_data(**kwargs)
+		context['upcoming_assignments'] = Assignment.objects.filter(status='Approved', member=self.request.user.member, event__end__gte=timezone.now()).order_by('event__begin')
 		context['pending_assignments'] = Assignment.objects.filter(status='Pending Approval', member=self.request.user.member)
 		return context
 
