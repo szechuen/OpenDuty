@@ -10,6 +10,14 @@ from django.core.urlresolvers import reverse_lazy
 from datetime import datetime
 import re
 
+def mail_staff(subject, message):
+	for user in User.objects.filter(is_staff=True):
+		user.email_user(subject, message)
+
+def mail_all(subject, message):
+	for user in User.objects.all():
+		user.email_user(subject, message)
+
 class DashboardView(ListView):
 	queryset = Action.objects.all()[:20]
 	template_name = "dashboard.html"
@@ -77,6 +85,7 @@ class MemberUpdateView(UpdateView):
 
 		self.object = form.save()
 		action.send(self.request.user.member, verb='updated', action_object=self.object)
+		self.object.user.email_user("OpenDuty: Member Updated", render_to_string("member/update_email.html", {'member': self.object}))
 		return super(MemberUpdateView, self).form_valid(form)
 
 class MemberDeleteView(DeleteView):
@@ -90,7 +99,9 @@ class MemberDeleteView(DeleteView):
 		return object
 
 	def get_success_url(self):
-		User.objects.get(username=self.username).delete()
+		user = User.objects.get(username=self.username)
+		user.email_user("OpenDuty: Member Deleted", render_to_string("member/delete_email.html"))
+		user.delete()
 		return super(MemberDeleteView, self).get_success_url()
 
 class EventListView(ListView):
@@ -125,6 +136,7 @@ class EventCreateView(CreateView):
 	def form_valid(self, form):
 		self.object = form.save()
 		action.send(self.request.user.member, verb='created', action_object=self.object)
+		mail_all("OpenDuty: Event Created ("+self.object.name+")", render_to_string("event/create_email.html", {'event': self.object}))
 		return super(EventCreateView, self).form_valid(form)
 
 class EventUpdateView(UpdateView):
@@ -135,12 +147,27 @@ class EventUpdateView(UpdateView):
 	def form_valid(self, form):
 		self.object = form.save()
 		action.send(self.request.user.member, verb='updated', action_object=self.object)
+		for assignment in self.object.assignment_set.filter(status="Approved"):
+			assignment.member.user.email_user("OpenDuty: Event Updated ("+self.object.name+")", render_to_string("event/update_email.html", {'event': self.object}))
 		return super(EventUpdateView, self).form_valid(form)
 
 class EventDeleteView(DeleteView):
 	model = Event
 	template_name = "event/delete.html"
 	success_url = reverse_lazy('event')
+
+	def get_object(self):
+		object = super(EventDeleteView, self).get_object()
+		self.assigned_members = []
+		for assignment in object.assignment_set.filter(status="Approved"):
+			self.assigned_members.append(assignment.member)
+		self.name = object.name
+		return object
+
+	def get_success_url(self):
+		for member in self.assigned_members:
+			member.user.email_user("OpenDuty: Event Deleted ("+self.name+")", render_to_string("event/delete_email.html", {'event_name': self.name}))
+		return super(EventDeleteView, self).get_success_url()
 
 class AssignmentForm(ModelForm):
 	class Meta:
@@ -162,6 +189,7 @@ class AssignmentCreateView(CreateView):
 
 		self.object = form.save()
 		action.send(self.request.user.member, verb='assigned', action_object=self.object, target=self.object.event)
+		self.object.member.user.email_user("OpenDuty: Assigned to "+self.object.event.name, render_to_string("assignment/create_email.html", {'assignment': self.object}))
 		return super(AssignmentCreateView, self).form_valid(form)
 
 class AssignmentUpdateView(UpdateView):
@@ -172,6 +200,7 @@ class AssignmentUpdateView(UpdateView):
 	def form_valid(self, form):
 		self.object = form.save()
 		action.send(self.request.user.member, verb='updated', action_object=self.object, target=self.object.event)
+		self.object.member.user.email_user("OpenDuty: Assignment Updated ("+self.object.event.name+")", render_to_string("assignment/update_email.html", {'assignment': self.object}))
 		return super(AssignmentUpdateView, self).form_valid(form)
 
 class AssignmentDeleteView(DeleteView):
@@ -181,9 +210,12 @@ class AssignmentDeleteView(DeleteView):
 	def get_object(self):
 		object = super(AssignmentDeleteView, self).get_object()
 		self.get_absolute_url = object.get_absolute_url()
+		self.member = object.member
+		self.event = object.event
 		return object
 
 	def get_success_url(self):
+		self.member.user.email_user("OpenDuty: Assignment Deleted ("+self.event.name+")", render_to_string("assignment/delete_email.html", {'member': self.member, 'event': self.event}))
 		return self.get_absolute_url
 
 class SignUpForm(ModelForm):
@@ -207,6 +239,7 @@ class SignUpView(CreateView):
 
 		self.object = form.save()
 		action.send(self.request.user.member, verb='signed up for', action_object=self.object, target=self.object.event)
+		mail_staff("OpenDuty: New Sign Up ("+str(self.object)+")", render_to_string("assignment/signup_email.html", {'assignment': self.object}))
 		return super(SignUpView, self).form_valid(form)
 
 class SignUpQueueView(ListView):
@@ -228,6 +261,8 @@ class SignUpAdminView(UpdateView):
 		self.object = form.save()
 		if self.object.status=='Approved':
 			action.send(self.request.user.member, verb='approved', action_object=self.object, target=self.object.event)
+			self.object.member.user.email_user("OpenDuty: Assignment Approved ("+self.object.event.name+")", render_to_string("assignment/signup_admin_email.html", {'assignment': self.object}))
 		elif self.object.status=='Rejected':
 			action.send(self.request.user.member, verb='rejected', action_object=self.object, target=self.object.event)
+			self.object.member.user.email_user("OpenDuty: Assignment Rejected ("+self.object.event.name+")", render_to_string("assignment/signup_admin_email.html", {'assignment': self.object}))
 		return super(SignUpAdminView, self).form_valid(form)
