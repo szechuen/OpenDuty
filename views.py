@@ -123,7 +123,7 @@ class EventDetailView(DetailView):
 class EventForm(ModelForm):
 	class Meta:
 		model = Event
-		exclude = ('assignments',)
+		exclude = ('assignments','reminder_sent')
 		widgets = {
 			'begin': forms.SplitDateTimeWidget(),
 			'end': forms.SplitDateTimeWidget(),
@@ -134,6 +134,8 @@ class EventCreateView(CreateView):
 	template_name = "event/create.html"
 
 	def form_valid(self, form):
+		form.instance.reminder_sent = False
+		
 		self.object = form.save()
 		action.send(self.request.user.member, verb='created', action_object=self.object)
 		mail_all("OpenDuty: Event Created ("+self.object.name+")", render_to_string("event/create_email.html", {'event': self.object}))

@@ -39,6 +39,7 @@ class Event(models.Model):
 	remarks = models.TextField(blank=True)
 
 	assignments = models.ManyToManyField(Member, through="Assignment")
+	reminder_sent = models.BooleanField()
 
 	def __unicode__(self):
 		return self.name
