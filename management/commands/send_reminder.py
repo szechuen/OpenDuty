@@ -13,7 +13,7 @@ class Command(BaseCommand):
 			alert_range = datetime.now() + timedelta(hours=alert_time)
 
 			for event in Event.objects.filter(reminder_sent=False, begin__lte=alert_range):
-				for member in event.assignments:
+				for member in event.assignments.all():
 					member.user.email_user("OpenDuty: Event Reminder ("+event.name+")", render_to_string("event/reminder_email.html", {'event': event}))
 				event.reminder_sent = True
 				event.save()
