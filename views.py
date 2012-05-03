@@ -50,7 +50,7 @@ class MemberForm(ModelForm):
 
 	class Meta:
 		model = Member
-		exclude = ('user',)
+		exclude = ('user','facebook')
 
 class MemberCreateView(CreateView):
 	form_class = MemberForm
