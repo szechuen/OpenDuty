@@ -1,0 +1,8 @@
+{% extends "base_content.html" %}
+{% load url from future %}
+
+{% block title %}Page Not Found{% endblock %}
+
+{% block content %}
+The page you've requested is not found. Try going back to the <a href="{% url 'dashboard' %}">Dashboard</a>. 
+{% endblock %}
