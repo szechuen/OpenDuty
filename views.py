@@ -20,7 +20,7 @@ class DashboardView(ListView):
 		return context
 
 class MemberListView(ListView):
-	model = Member
+	queryset = Member.objects.all().order_by('name')
 	template_name = "member/list.html"
 
 class MemberDetailView(DetailView):
