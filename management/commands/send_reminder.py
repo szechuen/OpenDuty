@@ -1,6 +1,6 @@
 from django.core.management.base import BaseCommand, CommandError
 from openduty.models import *
-from datetime import datetime
+from datetime import datetime, timedelta
 from django.template.loader import render_to_string
 
 class Command(BaseCommand):
@@ -10,13 +10,13 @@ class Command(BaseCommand):
 	def handle(self, *args, **options):
 		try:
 			alert_time = args[0]
+			alert_range = datetime.now() + timedelta(hours=alert_time)
 
-			for event in Event.objects.filter(reminder_sent=False):
-				if (event.begin-datetime.utcnow()).total_seconds()/3600 < alert_time:
-					for member in event.assignments:
-						member.user.email_user("OpenDuty: Event Reminder ("+event.name+")", render_to_string("event/reminder_email.html", {'event': event}))
-					event.reminder_sent = True
-					event.save()
+			for event in Event.objects.filter(reminder_sent=False, begin__lte=alert_range):
+				for member in event.assignments:
+					member.user.email_user("OpenDuty: Event Reminder ("+event.name+")", render_to_string("event/reminder_email.html", {'event': event}))
+				event.reminder_sent = True
+				event.save()
 
 			self.stdout.write("Successfully sent reminders\n")
 		except IndexError:
