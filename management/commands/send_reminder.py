@@ -9,7 +9,7 @@ class Command(BaseCommand):
 
 	def handle(self, *args, **options):
 		try:
-			alert_time = args[0]
+			alert_time = int(args[0])
 			alert_range = datetime.now() + timedelta(hours=alert_time)
 
 			for event in Event.objects.filter(reminder_sent=False, begin__lte=alert_range):
