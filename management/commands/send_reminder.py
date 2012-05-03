@@ -1,6 +1,7 @@
 from django.core.management.base import BaseCommand, CommandError
 from openduty.models import *
-from datetime import datetime, timedelta
+from datetime import timedelta
+from django.utils import timezone
 from django.template.loader import render_to_string
 
 class Command(BaseCommand):
@@ -10,7 +11,7 @@ class Command(BaseCommand):
 	def handle(self, *args, **options):
 		try:
 			alert_time = int(args[0])
-			alert_range = datetime.now() + timedelta(hours=alert_time)
+			alert_range = timezone.now() + timedelta(hours=alert_time)
 
 			for event in Event.objects.filter(reminder_sent=False, begin__lte=alert_range):
 				for member in event.assignments.all():
