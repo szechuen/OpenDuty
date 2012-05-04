@@ -5,5 +5,10 @@
 {% block subtitle %}{{ user.member.name }}{% endblock %}
 
 {% block content %}
+  <h2>Password</h2>
   <a href="{% url 'django.contrib.auth.views.password_change' %}" class="btn btn-primary">Change Password</a>
+  <h2 class="new-section">Facebook</h2>
+  <fb:login-button on-login="document.location = '{% url 'facebook' %}';">
+    {% if user.member.facebook %}Linked ID: {{ user.member.facebook }}{% else %}Link Facebook{% endif %}
+  </fb:login-button>
 {% endblock %}
