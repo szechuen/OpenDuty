@@ -40,7 +40,7 @@ class MemberDetailView(DetailView):
 		context = super(MemberDetailView, self).get_context_data(**kwargs)
 		context['total_duration'] = 0
 		context['total_cip_duration'] = 0
-		for assignment in context['member'].assignment_set.all():
+		for assignment in context['member'].assignment_set.filter(status='Approved'):
 			context['total_duration'] += assignment.event.duration()
 			context['total_cip_duration'] += assignment.event.cip_duration()
 		return context
