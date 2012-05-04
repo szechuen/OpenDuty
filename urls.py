@@ -37,4 +37,6 @@ urlpatterns = patterns('',
 	url(r'^assignment/signup/event/(?P<event_pk>\d+)/$', login_required(SignUpView.as_view()), name='assignment_signup'),
 	url(r'^assignment/signup/queue/$', user_passes_test(lambda u: u.is_staff)(SignUpQueueView.as_view()), name='assignment_signup_queue'),
 	url(r'^assignment/signup/admin/(?P<pk>\d+)/$', user_passes_test(lambda u: u.is_staff)(SignUpAdminView.as_view()), name='assignment_signup_admin'),
+
+	url(r'^facebook/$', 'openduty.views.facebook', name='facebook'),
 )

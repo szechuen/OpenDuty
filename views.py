@@ -6,8 +6,10 @@ from django.contrib.auth.models import User
 from actstream.models import Action
 from actstream import action
 from django.template.loader import render_to_string
+from django.shortcuts import redirect
 from django.core.urlresolvers import reverse_lazy
 from django.utils import timezone
+from django.contrib.auth import authenticate, login
 import re
 
 def mail_staff(subject, message):
@@ -269,3 +271,33 @@ class SignUpAdminView(UpdateView):
 			action.send(self.request.user.member, verb='rejected', action_object=self.object, target=self.object.event)
 			self.object.member.user.email_user("OpenDuty: Assignment Rejected ("+self.object.event.name+")", render_to_string("assignment/signup_admin_email.html", {'assignment': self.object}))
 		return super(SignUpAdminView, self).form_valid(form)
+
+class FacebookBackend(object):
+	def authenticate(self, fb_id=None):
+		try:
+			member = Member.objects.get(facebook=fb_id)
+			return member.user
+		except:
+			return None
+
+	def get_user(self, user_id):
+		try:
+			return User.objects.get(id=user_id)
+		except:
+			return None
+
+def facebook(request):
+	if request.facebook:
+		fb_id = request.facebook.graph.get_object("me")['id']
+
+		if request.user.is_authenticated():
+			request.user.member.facebook = fb_id
+			request.user.member.save()
+			return redirect('accounts_profile')
+		else:
+			user = authenticate(fb_id=fb_id)
+			if user is not None:
+				login(request, user)
+			return redirect('root')
+	else:
+		return redirect('root')
