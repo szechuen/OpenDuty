@@ -8,7 +8,7 @@
     {% csrf_token %}
     {% include "form.html" %}
     <div class="form-actions">
-      <input type="submit" class="btn btn-primary" value="Create Event" />
+      <input type="submit" class="btn btn-primary" value="Create Event" onclick="alert('Please hold while we send out notification emails to all members. This may take up to a minute.');" />
       <a href="{% url 'event' %}" class="btn">Cancel</a>
     </div>
   </form>
