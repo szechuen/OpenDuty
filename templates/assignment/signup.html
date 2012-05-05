@@ -9,7 +9,7 @@
     {% csrf_token %}
     {% include "form.html" %}
     <div class="form-actions">
-      <input type="submit" class="btn btn-primary" value="Sign Up" />
+      <input type="submit" class="btn btn-primary" value="Sign Up" onclick="alert('Please hold while we send out notification emails to staff members. This may take up to a minute.');" />
       <a href="{{ event.get_absolute_url }}" class="btn">Cancel</a>
     </div>
   </form>
