@@ -14,15 +14,10 @@
       </div>
     {% endif %}
     {% include "form.html" %}
-    <div class="control-group">
-      <div class="control-label"></div>
-      <div class="controls">
-        <fb:login-button on-login="document.location = '{% url 'facebook' %}';">Login with Facebook</fb:login-button>
-      </div>
-    </div>
     <div class="form-actions">
       <input type="submit" class="btn btn-primary" value="Login" />
       <a href="{% url 'django.contrib.auth.views.password_reset' %}" class="btn">Forgot password?</a>
+      <fb:login-button size="icon" on-login="document.location = '{% url 'facebook' %}';"></fb:login-button>
     </div>
     <input type="hidden" name="next" value="{{ next }}" />
   </form>
