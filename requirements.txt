@@ -1,0 +1,3 @@
+django
+django-activity-stream
+git+git://github.com/pythonforfacebook/django-facebook.git#egg=django-facebook
