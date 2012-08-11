@@ -36,7 +36,11 @@
 
     {% load facebook %}
     {% facebook_init %}
-      {% block facebook_code %}{% endblock %}
+      {% block facebook_code %}
+        FB.Event.subscribe('auth.login', function () {
+            window.location = "{% url 'facebook' %}";
+        });
+      {% endblock %}
     {% endfacebook %}
 
     <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
