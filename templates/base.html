@@ -36,14 +36,15 @@
 
     {% load facebook %}
     {% facebook_init %}
-      {% block facebook_code %}
-        function fbAuth() {
-            FB.login(function(response) {
-              window.location = "{% url 'facebook' %}";
-            });
-        }
-      {% endblock %}
+      {% block facebook_code %}{% endblock %}
     {% endfacebook %}
+    <script>
+      function fbAuth() {
+          FB.login(function(response) {
+            window.location = "{% url 'facebook' %}";
+          });
+      }
+    </script>
 
     <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
