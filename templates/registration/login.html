@@ -16,7 +16,7 @@
     {% include "form.html" %}
     <div class="form-actions">
       <input type="submit" class="btn btn-primary" value="Login" />
-      <a href="#" onclick="FB.login();" class="btn">Login with Facebook</a>
+      <a href="#" onclick="return fbAuth();" class="btn btn-info">Login with Facebook</a>
       <a href="{% url 'django.contrib.auth.views.password_reset' %}" class="btn">Forgot password?</a>
     </div>
     <input type="hidden" name="next" value="{{ next }}" />

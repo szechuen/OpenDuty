@@ -37,9 +37,11 @@
     {% load facebook %}
     {% facebook_init %}
       {% block facebook_code %}
-        FB.Event.subscribe('auth.login', function () {
-            window.location = "{% url 'facebook' %}";
-        });
+        function fbAuth() {
+            FB.login(function(response) {
+              window.location = "{% url 'facebook' %}";
+            });
+        }
       {% endblock %}
     {% endfacebook %}
 
